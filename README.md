@@ -26,6 +26,7 @@ This tool was made to run 24/7 to support other streamers while its **not necess
 
 ## Lurk Commands:
 L4L: Adds a Users channel to your Lurk List.
+
 !stop: Takes a Users channel off your Lurk List.
 
 ## Join Team Commands:
