@@ -22,4 +22,11 @@ This project uses: "Puppeteer", "JsMixer"
 
 You can run this when you are live streaming or not, people who type l4l, lurk, lurking in chat will add that person to your lurk list. Doing so will allow you to support the person that requested a lurk without manually stopping your game to open a tab. It is completely automatic.
 
-This tool was made to run 24/7 to support other streamers while its *not necessary to run 24/7*, the tool was built carefully to abide by all Mixer Terms of Service. 
+This tool was made to run 24/7 to support other streamers while its **not necessary to run 24/7**, the tool was built carefully to abide by all Mixer Terms of Service. 
+
+## Lurk Commands:
+L4L: Adds a Users channel to your Lurk List.
+!stop: Takes a Users channel off your Lurk List.
+
+## Join Team Commands:
+!jointeam: Invites a User to your Mixer Team.
