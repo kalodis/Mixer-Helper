@@ -1,3 +1,5 @@
+##Mixer Helper by GWARDO420
+
 Mixer Helper is a javascript tool to help streamers network. 
 (THIS TOOL IS CAREFULLY BUILT TO ABIDE BY ALL MIXER TOS & RULES!)
 When lurking, you often bring up a tab in the background to support 
