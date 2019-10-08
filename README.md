@@ -1,12 +1,12 @@
-## Mixer Helper by GWARDO420
+![Mixer Helper](https://i.imgur.com/UmByru4.png)
 
 *Mixer Helper is a javascript tool to help streamers network.*
 
-*(THIS TOOL IS CAREFULLY BUILT TO ABIDE BY ALL MIXER TOS & RULES!)*
+**(THIS TOOL IS CAREFULLY BUILT TO ABIDE BY ALL MIXER TOS & RULES!)**
 When lurking, you often bring up a tab in the background to support 
 your favorite streamer or return the favor of supporting channel. 
 (This bot is being developed by Gwardo420 for Mixer Networking)
-Please check out Sighmir here: https://github.com/Sighmir he helped me build this!
+Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!
 
 This project uses: "Puppeteer", "JsMixer"
 
