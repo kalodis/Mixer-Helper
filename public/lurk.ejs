@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <script src='https://cdn.jsdelivr.net/npm/@sighmir/jsmixer/lib/jsMixerChat.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@sighmir/jsmixer/lib/jsMixer.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@sighmir/jsmixer/lib/jsMixerBot.js'></script>
+  </head>
+  <body>
+    <div id='display'></div>
+    <script>
+        const path = window.location.pathname
+        const data = <%- JSON.stringify(data)%>
+        const socket = new WebSocket(data.socket)
+        const display = document.getElementById('display')
+        const params = new URLSearchParams(window.location.search)
+
+        socket.onmessage = (message) => {
+          let data = JSON.parse(message.data)
+          console.log(data)
+          if (data.event == 'lurks') {
+            display.innerHTML = data.lurks.join('</br>')
+          }
+        }
+
+        socket.onclose = async () => {
+          while(true) {
+            socket = new WebSocket(data.socket)
+            await delay(5000)
+            if (socket.readyState === 1) location.reload()
+          }
+        }
+    </script>
+  </body>
+</html
