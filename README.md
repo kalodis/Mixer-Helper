@@ -28,3 +28,5 @@ L4L: Adds a Users channel to your Lurk List.
 
 ## Join Team Commands:
 !jointeam: Invites a User to your Mixer Team.
+
+If you have any issues you can use the command g!ticket to open a support ticket in my [Discord](https://discord.gg/aQzZbx8)
