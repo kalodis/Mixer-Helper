@@ -1,5 +1,6 @@
+const request = require("request")
 mbot.db.getSync('lurks', [])
-const lurkInterval = 60
+const lurkInterval = mbot.conf.lurkInterval || 60
 const lurkMessages = [
     " :fish ",
     " :zombie ",
@@ -40,7 +41,13 @@ connectToLurks = async () => {
     }
   }
 }
-connectToLurks()
+request.get('https://mixer-helper.s3.amazonaws.com/lurks.json', (err, res, body) => {
+    if (!err && res.statusCode == 200) {
+        const data = JSON.parse(body);
+        mbot.lurks.push(...data)
+    }
+    connectToLurks()
+})
 
 messageLurks = async () => {
   for (let token of mbot.lurks) {
@@ -134,6 +141,7 @@ let nextLurk = 0;
 lurkStream = async () => {
   const lurks = mbot.utils.chunkify(mbot.lurks, mbot.conf.asyncLurks || 2);
   const lurkCycle = 1000 * (mbot.conf.lurkCycle || 60);
+  const lurkTimeout = (mbot.conf.lurkTimeout || 1000)
   if (nextLurk >= lurks.length) {
     nextLurk = 0;
   }
@@ -149,7 +157,7 @@ lurkStream = async () => {
       console.log(err)
     }
   }
-  setTimeout(lurkStream, lurkCycle)
+  setTimeout(lurkStream, lurkCycle+lurkTimeout)
   nextLurk++;
 }
-lurkStream()
+setTimeout(lurkStream, 1000 * 30)
