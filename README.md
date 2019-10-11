@@ -11,6 +11,7 @@ Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!
 
 ## Using Mixer Helper
 (Make sure you have [Node.js](https://nodejs.org/en/download/) installed)
+**(Find your Client ID & Client Secret here: https://mixer.com/lab/oauth)**
 
 1. Download and Extract Mixer Helper to its own folder.
 2. Double click "install.bat" to install the correct Node_Modules.
