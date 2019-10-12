@@ -62,9 +62,6 @@
     "user:updatePassword:self"
   ],
   "prefix": "!",
-  "puppeteer": {
-    "headless": false
-  },
   "lurkInterval": 60,
   "lurkMessages": [
     ":pizza ",
