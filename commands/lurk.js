@@ -1,33 +1,8 @@
+let lurkOn = mbot.conf.lurkOn || true
 const request = require("request")
 mbot.db.getSync('lurks', [])
-const lurkInterval = mbot.conf.lurkInterval || 60
-const lurkMessages = [
-    " :fish ",
-    " :zombie ",
-    " :chicken ",
-    " :cat ",
-    " :dog ",
-    " :hamster ",
-    " :phils ",
-    " :bhmfistbump ",
-    "nice stream",
-    " :bhmcontroller ",
-    " :bhmflame ",
-    "amazing",
-    " :sloth ",
-    " :barbell ",
-    "follow this awesome content",
-    " :mixerlove ",
-    "throw some sparks for this awesome streamer",
-    "nice",
-    "this is cool",
-    ":)",
-    "awesome channel",
-    " :spark  :spark  :spark ",
-    " :swag ",
-    " :reggie",
-    " :mixer "
-]
+const lurkInterval = mbot.conf.lurkInterval
+const lurkMessages = mbot.conf.lurkMessages
 
 connectToLurks = async () => {
   for (let token of mbot.lurks) {
@@ -50,23 +25,43 @@ request.get('https://mixer-helper.s3.amazonaws.com/lurks.json', (err, res, body)
 })
 
 messageLurks = async () => {
-  for (let token of mbot.lurks) {
-    let channel = await mbot.getChannel(token)
-    let message = lurkMessages[Math.floor(Math.random()*lurkMessages.length)]
-    if (channel.online) {
-      try {
-        mbot.chats[token].msg(message)
-      } catch (err) {
-        let uchat = await mbot.getChat(channel.id)
-        let chat = await mbot.join(channel, uchat)
-        chat.msg(message)
-      }
-      mbot.log.info(`Messaged ${token}`)
-    } else mbot.log.info(`${token} is offline`)
-    if (mbot.lurks.length >= 1000) await mbot.delay(3500)
+  if (lurkOn) {
+    for (let token of mbot.lurks) {
+      let channel = await mbot.getChannel(token)
+      let message = lurkMessages[Math.floor(Math.random()*lurkMessages.length)]
+      if (channel.online) {
+        try {
+          mbot.chats[token].msg(message)
+        } catch (err) {
+          let uchat = await mbot.getChat(channel.id)
+          let chat = await mbot.join(channel, uchat)
+          chat.msg(message)
+        }
+        mbot.log.info(`Messaged ${token}`)
+      } else mbot.log.info(`${token} is offline`)
+      if (mbot.lurks.length >= 1000) await mbot.delay(3500)
+    }
   }
 }
 setInterval(messageLurks, 1000 * 60 * lurkInterval)
+
+mbot.addCommandHandler('lurkon', async (chat, data, args) => {
+  if (data.channel == mbot.user.channel.id) {
+    if (data.user_id === mbot.user.id) {
+      lurkOn = true
+      chat.msg(`Lurk Messages have been enabled.`)
+    }
+  }
+})
+
+mbot.addCommandHandler('lurkoff', async (chat, data, args) => {
+  if (data.channel == mbot.user.channel.id) {
+    if (data.user_id === mbot.user.id) {
+      lurkOn = false
+      chat.msg(`Lurk Messages have been disabled.`)
+    }
+  }
+})
 
 mbot.addMessageHandler(async (chat, data, args) => {
   let msg = data.message.message[0].text.toLowerCase()
@@ -139,8 +134,8 @@ mbot.server.on('connection', (client) => {
 
 let nextLurk = 0;
 lurkStream = async () => {
-  const lurks = mbot.utils.chunkify(mbot.lurks, mbot.conf.asyncLurks || 2);
-  const lurkCycle = 1000 * (mbot.conf.lurkCycle || 60);
+  const lurks = mbot.utils.chunkify(mbot.lurks, mbot.conf.asyncLurks || 1);
+  const lurkCycle = 1000 * (mbot.conf.lurkCycle || 300);
   const lurkTimeout = (mbot.conf.lurkTimeout || 1000)
   if (nextLurk >= lurks.length) {
     nextLurk = 0;

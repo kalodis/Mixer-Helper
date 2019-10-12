@@ -1,7 +1,7 @@
 {
   "socket": "ws://localhost:4000",
-  "clientId": "YOUR_CLIENT_ID_HERE",
-  "clientSecret": "YOUR_CLIENT_SECRET_HERE",
+  "clientId": "YOUR_CLIENT_ID_GOES_HERE",
+  "clientSecret": "YOUR_CLIENT_SECRET_GOES_HERE",
   "scope": [
     "user:act_as",
     "achievement:view:self",
@@ -61,5 +61,17 @@
     "user:update:self",
     "user:updatePassword:self"
   ],
-  "prefix": "!"
+  "prefix": "!",
+  "lurkInterval": "60",
+  "lurkMessages": [
+    "cool!",
+    "nice"
+  ],
+  "adMessages": [
+    "check out my channel!",
+    "F4F L4L"
+  ],
+  "lurkCycle": "300",
+  "lurkTimeout": "60",
+  "asyncLurks": "1"
 }
