@@ -64,8 +64,14 @@
   "prefix": "!",
   "lurkInterval": "60",
   "lurkMessages": [
-    "cool!",
-    "nice"
+    ":pizza ",
+    ":pepsi",
+    ":pepper",
+    ":icecream ",
+    ":fries",
+    ":cake",
+    ":bacon ",
+    ":mixerlove "
   ],
   "adMessages": [
     "check out my channel!",
