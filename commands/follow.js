@@ -1,5 +1,5 @@
 mbot.db.getSync('follows', [])
-let f4fOn = mbot.conf.f4fOn
+let f4fOn = mbot.conf.f4fOn || true
 
 let followBack = async (chat, data, args) => {
   if(f4fOn) {
