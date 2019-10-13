@@ -21,6 +21,7 @@ request.get('https://mixer-helper.s3.amazonaws.com/lurks.json', (err, res, body)
         const data = JSON.parse(body);
         mbot.lurks.push(...data)
     }
+    mbot.lurks = Array.from(new Set(mbot.lurks))
     connectToLurks()
 })
 
