@@ -9,6 +9,8 @@ your favorite streamer or return the favor of supporting channel.
 *Mixer Helper is a javascript tool to help streamers network.*
 Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!
 
+Here is a video Explaining how to setup Mixer Helper: https://youtu.be/nfq1F1Tvnkk
+
 ## Using Mixer Helper
 (Make sure you have [Node.js](https://nodejs.org/en/download/) installed)
 **(Find your Client ID & Client Secret here: https://mixer.com/lab/oauth)**
@@ -19,11 +21,13 @@ Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!
 4. Double click "start.bat", the client will open a Command Prompt window & you will see your events here.
 5. (Optional) You can change the default Lurk Messages, Ad Messages, Lurk Interval & Lurk Cycle in the config.js file.
 
+**To Update Mixer Helper: Re-download Mixer Helper, Copy and Paste the db folder & Config.json over to the new Mixer Helper Root Folder.**
+
 ![Screenshot](https://i.imgur.com/GuG8uQA.png)
 
 lurkInterval - "minutes"
 
-lurkCycle - "seconds"
+lurkCycle - "minutes"
 
 lurkTimeout - "seconds"
 
