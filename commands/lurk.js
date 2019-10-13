@@ -30,7 +30,7 @@ messageLurks = async () => {
     for (let token of mbot.lurks) {
       let channel = await mbot.getChannel(token)
       let message = lurkMessages[Math.floor(Math.random()*lurkMessages.length)]
-      if (channel.online) {
+      if (channel.online && token != mbot.user.channel.token) {
         try {
           mbot.chats[token].msg(message)
         } catch (err) {
