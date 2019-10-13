@@ -118,7 +118,7 @@ mbot.addCommandHandler('stop', async (chat, data, args) => {
 
 mbot.addCommandHandler('jointeam', async (chat, data) => {
   let user = await mbot.getUser(data.user_id)
-  if ((user) && data.channel == mbot.user.channel.id) {
+  if (mbot.team && user && data.channel == mbot.user.channel.id) {
    mbot.inviteTeamUser(mbot.team.id, {userId: data.user_id})
     chat.msg(`${data.user_name} you have been invited to my Mixer Team!`).catch(err => console.log(err))
   }
@@ -135,23 +135,29 @@ mbot.server.on('connection', (client) => {
 
 let nextLurk = 0;
 lurkStream = async () => {
-  const lurks = mbot.utils.chunkify(mbot.lurks, mbot.conf.asyncLurks || 1);
-  const lurkCycle = 1000 * (mbot.conf.lurkCycle || 300);
-  const lurkTimeout = (mbot.conf.lurkTimeout || 1000)
+  const lurks = mbot.utils.chunkify(mbot.lurks, mbot.conf.asyncLurks);
+  const lurkCycle = 1000 * (mbot.conf.lurkCycle);
+  const lurkTimeout = 1000 * (mbot.conf.lurkTimeout);
   if (nextLurk >= lurks.length) {
     nextLurk = 0;
   }
   for (const lurk of lurks[nextLurk]) {
-    try {
-      const page = await mbot.getPage(`https://mixer.com/${lurk}`);
-      page.waitForSelector(".bui-label").then(async () => {
-        await page.click(".bui-label");
-        await page.click(".accept-btn");
-      }).catch(() => {})
-      setTimeout(() => page.close(), lurkCycle)
-    } catch(err) {
-      console.log(err)
-    }
+    let channel = await mbot.getChannel(lurk)
+    if (channel.online) {
+      try {
+        const page = await mbot.getPage(`https://mixer.com/${lurk}`);
+        page.waitForSelector(".bui-label").then(async () => {
+          await page.click(".bui-label");
+          await page.click(".accept-btn");
+        }).catch(() => {})
+        //let message = lurkMessages[Math.floor(Math.random()*lurkMessages.length)]
+        //mbot.chats[lurk].msg(message)
+        setTimeout(() => page.close(), lurkCycle)
+        console.log(`Now lurking ${lurk}'s channel!`)
+      } catch(err){
+        console.log(err)
+      }
+      }
   }
   setTimeout(lurkStream, lurkCycle+lurkTimeout)
   nextLurk++;

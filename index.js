@@ -18,6 +18,8 @@ mbot.auth().then(async () => {
   mbot.user.chat = await mbot.getChat(mbot.user.channel.id)
   require('./commands')
   mbot.chat = await mbot.join(mbot.user.channel, mbot.user.chat)
+  mbot.team = await mbot.getTeam(mbot.conf.team)
+    .catch(() => mbot.log.warning(`Failed to get team, ${mbot.conf.prefix}jointeam won't work`))
 }).catch(err => mbot.log.error(err))
 
 mbot.server.set('view engine', 'ejs')

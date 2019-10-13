@@ -9,6 +9,11 @@ your favorite streamer or return the favor of supporting channel.
 *Mixer Helper is a javascript tool to help streamers network.*
 Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!
 
+Here is a video Explaining how to setup Mixer Helper: https://youtu.be/nfq1F1Tvnkk
+
+## Lurk & Advertisement Messages
+Check out this [guide](https://tkvids.wixsite.com/designs/mixer-support-tool) to help you change your **Lurk Messages & Advertisement Messages**
+
 ## Using Mixer Helper
 (Make sure you have [Node.js](https://nodejs.org/en/download/) installed)
 **(Find your Client ID & Client Secret here: https://mixer.com/lab/oauth)**
@@ -19,20 +24,10 @@ Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!
 4. Double click "start.bat", the client will open a Command Prompt window & you will see your events here.
 5. (Optional) You can change the default Lurk Messages, Ad Messages, Lurk Interval & Lurk Cycle in the config.js file.
 
-![Screenshot](https://i.imgur.com/GuG8uQA.png)
-
-lurkInterval - "minutes"
-
-lurkCycle - "seconds"
-
-lurkTimeout - "seconds"
-
-asyncLurks - "how many streams to open at a time **CAUTION: THE MORE STREAMS THE MORE BANDWIDTH USED**"
+**To Update Mixer Helper: Re-download Mixer Helper, Copy and Paste the db folder & Config.json over to the new Mixer Helper Root Folder.**
 
 (If you would like to join the Global Lurk List you can message me on Discord! Link Below!)
 (Currently the only Ad channel on the Global Ad List is [Gwardo's Self Promotion Channel](https://www.mixer.com/gwardo420))
-
-When you are finished you can close the Command Prompt Window!
 
 You can run this when you are live streaming or not, people who type l4l, lurk, lurking in chat will add that person to your lurk list. Doing so will allow you to support the person that requested a lurk without manually stopping your game to open a tab. It is completely automatic. (This tool was made to run 24/7 to support other streamers while its **not necessary to run 24/7**, the tool was built carefully to abide by all Mixer Terms of Service.)
 
