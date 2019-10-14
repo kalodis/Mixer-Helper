@@ -56,4 +56,5 @@ L4L: Adds a Users channel to your Lurk List.
 
 !f4foff: Turns off Auto F4F (When users ask f4f in chat)!
 
+## Join My Discord
 If you have any issues you can use the command g!ticket to open a support ticket in my [Discord](https://discord.gg/aQzZbx8)
