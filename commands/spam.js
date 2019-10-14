@@ -1,23 +1,22 @@
 const request = require("request")
 mbot.db.getSync('spams', [])
-const spamInterval = 5
-const spamMessages = mbot.conf.adMessages || [
-  `F4F L4L - mixer.com/${mbot.user.channel.token}`,
-  `Support 4 Support - mixer.com/${mbot.user.channel.token}`,
-  `Check out my channel - mixer.com/${mbot.user.channel.token}`,
-  `Lurk for Lurk - mixer.com/${mbot.user.channel.token}`
-]
+const spamInterval = 2
+const spamMessages = mbot.conf.adMessages
 
 connectToSpams = async () => {
+  try {
   for (let token of mbot.spams) {
     if (token != mbot.user.channel.token) {
       let channel = await mbot.getChannel(token)
       let chat = await mbot.getChat(channel.id)
       chat = await mbot.join(channel, chat)
-      console.log(`[ADVERTISEMENTS] Connected to ${channel.token}`)
+      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Connected to ${channel.token}`)
     } else {
-      console.log(`[ADVERTISEMENTS] Already connected to ${token}`)
+      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Already connected to ${token}`)
     }
+  }
+  } catch (err) {
+    console.log(err)
   }
 }
 request.get('https://mixer-helper.s3.amazonaws.com/spams.json', (err, res, body) => {
@@ -33,9 +32,9 @@ messageSpams = async () => {
     let channel = await mbot.getChannel(token)
     let message = spamMessages[Math.floor(Math.random()*spamMessages.length)]
     if (channel.online) {
-      mbot.chats[token].msg(message)
-      console.log(`[ADVERTISEMENTS] Sent Advertisement to ${token}`)
-    } else console.log(`[ADVERTISEMENTS] ${token} is offline`)
+      mbot.chats[token].msg(message).catch(err => console.log(err))
+      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Sent Advertisement to ${token}`)
+    } else console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] ${token} is offline`)
     if (mbot.spams.length >= 1000) await mbot.delay(3500)
   }
 }
