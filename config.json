@@ -77,9 +77,9 @@
     "check out my channel!",
     "F4F L4L"
   ],
-  "lurkCycle": 1200,
+  "lurkCycle": 300,
   "lurkTimeout": 120,
-  "asyncLurks": 2,
+  "asyncLurks": 1,
   "teamInvite": false,
   "team": "YOUR_TEAM_HERE"
 }
