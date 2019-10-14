@@ -32,7 +32,13 @@ messageSpams = async () => {
     let channel = await mbot.getChannel(token)
     let message = spamMessages[Math.floor(Math.random()*spamMessages.length)]
     if (channel.online) {
-      mbot.chats[token].msg(message).catch(err => console.log(err))
+      if (mbot.chats[token]) {
+        mbot.chats[token].msg(message).catch(err => console.log(err))
+      } else {
+        let chat = await mbot.getChat(channel.id)
+        chat = await mbot.join(channel, chat)
+        mbot.chats[token].msg(message).catch(err => console.log(err))
+      }
       console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Sent Advertisement to ${token}`)
     } else console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] ${token} is offline`)
     if (mbot.spams.length >= 1000) await mbot.delay(3500)
