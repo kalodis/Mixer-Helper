@@ -5,14 +5,20 @@
 ## Description:
 
 When lurking, you often bring up a tab in the background to support 
-your favorite streamer or return the favor of supporting channel.
+your favorite streamer or return the favor of supporting their channel. I made this tool
+to make it easier to lurk more streamers at once. 
+
 *Mixer Helper is a javascript tool to help streamers network.*
 Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!
 
-Here is a video Explaining how to setup Mixer Helper: https://youtu.be/nfq1F1Tvnkk
-
 ## Lurk & Advertisement Messages
-Check out this [guide](https://tkvids.wixsite.com/designs/mixer-support-tool) to help you change your **Lurk Messages & Advertisement Messages**
+This [Guide](https://tkvids.wixsite.com/designs/mixer-support-tool) helps with changing **Lurk Messages & Advertisement Messages**
+
+## Requirements
+(Make sure you have [Node.js](https://nodejs.org/en/download/) installed on your computer!)
+
+## Setup Guide
+Here is a video Explaining how to setup Mixer Helper: https://youtu.be/nfq1F1Tvnkk
 
 ## Using Mixer Helper
 (Make sure you have [Node.js](https://nodejs.org/en/download/) installed)
