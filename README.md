@@ -8,7 +8,7 @@ This tool helps making networking on Mixer easy to help grow your community! Mix
 ## How do I change my Lurk and Spam Messages?
 - **[See how to change your Lurk & Spam Messages here!](https://tkvids.wixsite.com/designs/mixer-support-tool)**
 
-## How do use Mixer Helper?
+## How do I use Mixer Helper?
 - **[Click here for a video setup guide!](https://youtu.be/nfq1F1Tvnkk)**
 
 ## You need these:
