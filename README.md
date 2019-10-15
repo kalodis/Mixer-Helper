@@ -1,4 +1,4 @@
-![Mixer Helper](https://i.imgur.com/UmByru4.png)
+![Mixer Helper](https://i.imgur.com/mEeU8u7.png)
 
 **(THIS TOOL IS CAREFULLY BUILT TO ABIDE BY ALL MIXER TOS & RULES!)**
 
@@ -10,18 +10,16 @@ to make it easier to lurk more streamers at once.
 - **Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!**
 
 ## Lurk & Advertisement Messages
-- This [Guide](https://tkvids.wixsite.com/designs/mixer-support-tool) helps with changing **Lurk Messages & Advertisement Messages**
-
-## Requirements
-- (Make sure you have [Node.js](https://nodejs.org/en/download/) installed on your computer!)
+- **[See how to change your Lurk & Spam Messages here!](https://tkvids.wixsite.com/designs/mixer-support-tool)**
 
 ## Setup Guide
-- Here is a video Explaining how to setup Mixer Helper: https://youtu.be/nfq1F1Tvnkk
+- **[Click here for a video setup guide!](https://youtu.be/nfq1F1Tvnkk)**
 
-## Using Mixer Helper
-- (Make sure you have [Node.js](https://nodejs.org/en/download/) installed)
+## Requirements
+- **([Click here to install Node.js](https://nodejs.org/en/download/))**
 - **[Click here for your Client ID & Client Secret](https://mixer.com/lab/oauth)**
 
+## Using Mixer Helper
 1. Download and Extract Mixer Helper to its own folder.
 2. Double click "install.bat" to install the correct Node_Modules.
 3. Open the Config.json file & Input your Client ID & Client Secret, Save & Close.
