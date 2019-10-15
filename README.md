@@ -2,24 +2,20 @@
 
 **(THIS TOOL IS CAREFULLY BUILT TO ABIDE BY ALL MIXER TOS & RULES!)**
 
-## Description:
+## What is Mixer Helper?
+This tool helps making networking on Mixer easy to help grow your community! Mixer Helper will both lurk users that ask for L4L in your chat & post your advertisement in allowed self promotion chats on Mixer! **See commands below!** [Sighmir](https://github.com/Sighmir)  helped me build this.
 
-When lurking, you often bring up a tab in the background to support 
-your favorite streamer or return the favor of supporting their channel. I made this tool
-to make it easier to lurk more streamers at once. 
-- **Please check out [Sighmir](https://github.com/Sighmir) he helped me build this!**
-
-## Lurk & Advertisement Messages
+## How do I change my Lurk and Spam Messages?
 - **[See how to change your Lurk & Spam Messages here!](https://tkvids.wixsite.com/designs/mixer-support-tool)**
 
-## Setup Guide
+## How do use Mixer Helper?
 - **[Click here for a video setup guide!](https://youtu.be/nfq1F1Tvnkk)**
 
-## Requirements
+## You need these:
 - **([Click here to install Node.js](https://nodejs.org/en/download/))**
 - **[Click here for your Client ID & Client Secret](https://mixer.com/lab/oauth)**
 
-## Using Mixer Helper
+## Installing Mixer Helper
 1. Download and Extract Mixer Helper to its own folder.
 2. Double click "install.bat" to install the correct Node_Modules.
 3. Open the Config.json file & Input your Client ID & Client Secret, Save & Close.
