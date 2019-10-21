@@ -62,7 +62,7 @@
     "user:updatePassword:self"
   ],
   "prefix": "!",
-  "lurkInterval": 60,
+  "lurkInterval": 120,
   "lurkMessages": [
     ":pizza ",
     ":pepsi",
@@ -75,7 +75,15 @@
   ],
   "adMessages": [
     "check out my channel!",
-    "F4F L4L"
+    "L4L F4F :)",
+    "follow for follow?",
+    "lurk for lurk?"
+  ],
+  "liveNowInterval": 3,
+  "liveMessages": [
+    "Live Now! Come check out my channel!",
+    "Hey Mixer I am live now if you want to come check out my channel!",
+    ":) LIVE NOW :)"
   ],
   "lurkCycle": 300,
   "lurkTimeout": 120,
