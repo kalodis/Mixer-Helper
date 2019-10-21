@@ -1,7 +1,10 @@
 const request = require("request")
 mbot.db.getSync('spams', [])
-const spamInterval = 2
+const spamInterval = 3
 const spamMessages = mbot.conf.adMessages
+const messageLiveTime = 1000 * 60 * mbot.conf.liveNowInterval
+
+
 
 connectToSpams = async () => {
   try {
@@ -10,9 +13,8 @@ connectToSpams = async () => {
       let channel = await mbot.getChannel(token)
       let chat = await mbot.getChat(channel.id)
       chat = await mbot.join(channel, chat)
-      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Connected to ${channel.token}`)
     } else {
-      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Already connected to ${token}`)
+      return;
     }
   }
   } catch (err) {
@@ -23,15 +25,20 @@ request.get('https://mixer-helper.s3.amazonaws.com/spams.json', (err, res, body)
     if (!err && res.statusCode == 200) {
         const data = JSON.parse(body);
         mbot.spams.push(...data)
-    }
+        console.log(`Connecting to users on the Global Advertisement List`)
+    } else mbot.log.warn("Failed to get global spam list")
+    mbot.spams = Array.from(new Set(mbot.spams))
     connectToSpams()
 })
 
-messageSpams = async () => {
-  for (let token of mbot.spams) {
+messageLive = async () => {
+  try {
+    for (let token of mbot.spams) {
     let channel = await mbot.getChannel(token)
-    let message = spamMessages[Math.floor(Math.random()*spamMessages.length)]
+    let message = liveMessages[Math.floor(Math.random()*liveMessages.length)]
     if (channel.online) {
+      if (mbot.user.channel.online) {
+        if(!mbot.user.channel.online) {return}
       if (mbot.chats[token]) {
         mbot.chats[token].msg(message).catch(err => console.log(err))
       } else {
@@ -39,8 +46,29 @@ messageSpams = async () => {
         chat = await mbot.join(channel, chat)
         mbot.chats[token].msg(message).catch(err => console.log(err))
       }
-      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Sent Advertisement to ${token}`)
-    } else console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] ${token} is offline`)
+      mbot.log.info(`[LIVE NOW SENT] Channel: ${token} - Message: ${message}`)
+    }
+    } else {return}
+    if (mbot.spams.length >= 1000) await mbot.delay(3500)
+  }
+} catch (err) {
+  console.log(err)
+}
+}
+setInterval(messageLive, messageLiveTime)
+
+messageSpams = async () => {
+  for (let token of mbot.spams) {
+    let channel = await mbot.getChannel(token)
+    let message = spamMessages[Math.floor(Math.random()*spamMessages.length)]
+      if (mbot.chats[token]) {
+        mbot.chats[token].msg(message).catch(err => console.log(err))
+      } else {
+        let chat = await mbot.getChat(channel.id)
+        chat = await mbot.join(channel, chat)
+        mbot.chats[token].msg(message).catch(err => console.log(err))
+      }
+      mbot.log.info(`[AD SENT] Channel: ${token} - Message: ${message}`)
     if (mbot.spams.length >= 1000) await mbot.delay(3500)
   }
 }
