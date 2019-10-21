@@ -5,15 +5,15 @@ mbot.db.getSync('lurks', [])
 const lurkInterval = mbot.conf.lurkInterval
 const lurkMessages = mbot.conf.lurkMessages
 
+
 connectToLurks = async () => {
   for (let token of mbot.lurks) {
     if (token != mbot.user.channel.token) {
       let channel = await mbot.getChannel(token)
       let chat = await mbot.getChat(channel.id)
       chat = await mbot.join(channel, chat)
-      console.log('\x1b[32m%s\x1b[0m', `[L4L] Connecting to ${token}'s channel.`);
     } else {
-      console.log('\x1b[32m%s\x1b[0m', `[L4L] Already connected to ${token}'s channel!`);
+      return;
     }
   }
 }
@@ -21,6 +21,7 @@ request.get('https://mixer-helper.s3.amazonaws.com/lurks.json', (err, res, body)
     if (!err && res.statusCode == 200) {
         globalLurks = JSON.parse(body);
         mbot.lurks.push(...globalLurks)
+        console.log(`Connecting to users on the Global Lurk List.`)
     } else mbot.log.warn("Failed to get global lurk list")
     mbot.lurks = Array.from(new Set(mbot.lurks))
     connectToLurks()
@@ -39,8 +40,8 @@ messageLurks = async () => {
           let chat = await mbot.join(channel, uchat)
           chat.msg(message).catch(err => console.log(err))
         }
-        mbot.log.info(`Messaged ${token}`)
-      } else mbot.log.info(`${token} is offline`)
+        mbot.log.info(`[L4L SENT] Channel: ${token} Message: ${message}`)
+      } else {return}
       if (mbot.lurks.length >= 1000) await mbot.delay(3500)
     }
   }
@@ -51,7 +52,7 @@ mbot.addCommandHandler('lurkon', async (chat, data, args) => {
   if (data.channel == mbot.user.channel.id) {
     if (data.user_id === mbot.user.id) {
       lurkOn = true
-      chat.msg(`Lurk Messages have been enabled.`).catch(err => console.log(err))
+      console.log(`Lurk Messages have been enabled.`).catch(err => console.log(err))
     }
   }
 })
@@ -60,7 +61,7 @@ mbot.addCommandHandler('lurkoff', async (chat, data, args) => {
   if (data.channel == mbot.user.channel.id) {
     if (data.user_id === mbot.user.id) {
       lurkOn = false
-      chat.msg(`Lurk Messages have been disabled.`).catch(err => console.log(err))
+      console.log(`Lurk Messages have been disabled.`).catch(err => console.log(err))
     }
   }
 })
@@ -77,18 +78,17 @@ mbot.addMessageHandler(async (chat, data, args) => {
           let uchat = await mbot.getChat(user.channel.id)
           if ((data.user_name) && data.channel == mbot.user.channel.id)
           if (mbot.utils.add(mbot.lurks, user.channel.token)) {
-            console.log('\x1b[36m%s\x1b[0m', `[L4L] Added channel ${user.channel.token}`);
+            console.log('\x1b[36m%s\x1b[0m', `[L4L] Added channel mixer.com/${user.channel.token} - Lurk Messages being sent: ${lurkOn}.`);
             chat.msg(`@${user.channel.token}'s channel has been added to our lurk list!`).catch(err => console.log(err))
             mbot.db.set('lurks')
-          } else console.log('\x1b[36m%s\x1b[0m', `[L4L] Channel ${user.channel.token} already added`);
+          } else 
           if (!mbot.chats[user.channel.token]) {
             await mbot.join(user.channel, uchat)
           } else {
             chat.msg(`@${user.channel.token}'s channel is already on my lurk list! `).catch(err => console.log(err))
-            console.log('\x1b[36m%s\x1b[0m', `Already Lurking ${user.channel.token}'s channel!`);
           }
         } else {
-          console.log('\x1b[31m%s\x1b[0m', `[L4L] Channel ${user.channel.token} doesn't exist`);
+          console.log('\x1b[31m%s\x1b[0m', `[L4L] Channel: ${user.channel.token} doesn't exist!`);
         }
       // }
     } catch (err) {
@@ -107,8 +107,8 @@ mbot.addCommandHandler('stop', async (chat, data, args) => {
           delete mbot.chats[channel.token]
           mbot.db.set('lurks', mbot.lurks.filter(token => token != channel.token))
           mbot.server.send(JSON.stringify({ event: 'lurks', lurks: mbot.lurks }))
-          mbot.log.info(`Removed channel ${channel.token} from the lurk list`)
-          chat.msg(`Removed ${data.user_name} from our lurk list!`)
+          mbot.log.info(`[L4L REMOVED] Channel: ${token}`)
+          chat.msg(`I won't be lurking you anymore ${data.user_name}!`)
         }
       }
     }
@@ -122,6 +122,7 @@ mbot.addCommandHandler('jointeam', async (chat, data) => {
   if (mbot.team && user && data.channel == mbot.user.channel.id) {
    mbot.inviteTeamUser(mbot.team.id, {userId: data.user_id})
     chat.msg(`${data.user_name} you have been invited to my Mixer Team!`).catch(err => console.log(err))
+    console.log(`${data.user_name} has been invited to your Mixer Team: ${mbot.team.id}`)
   }
 })
 
@@ -152,8 +153,7 @@ lurkStream = async () => {
             await page.click(".bui-label");
             await page.click(".accept-btn");
           }).catch(() => {})
-          setTimeout(() => page.close(), lurkCycle)
-          console.log('\x1b[36m%s\x1b[0m', `Now Lurking ${token}'s channel!`);
+          setTimeout(() => page.close(), lurkCycle)  
         } catch(err){
           console.log(err)
         }
