@@ -4,7 +4,6 @@ const spamInterval = 5
 const spamMessages = mbot.conf.adMessages
 
 connectToSpams = async () => {
-  try {
   for (let token of mbot.spams) {
     if (token != mbot.user.channel.token) {
       let channel = await mbot.getChannel(token)
@@ -14,9 +13,6 @@ connectToSpams = async () => {
     } else {
       console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Already connected to ${token}`)
     }
-  }
-  } catch (err) {
-    console.log(err)
   }
 }
 request.get('https://mixer-helper.s3.amazonaws.com/spams.json', (err, res, body) => {

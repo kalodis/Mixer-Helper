@@ -7,7 +7,6 @@ const lurkMessages = mbot.conf.lurkMessages
 
 
 connectToLurks = async () => {
-  try {
     for (let token of mbot.lurks) {
       if (token != mbot.user.channel.token) {
         let channel = await mbot.getChannel(token)
@@ -18,9 +17,6 @@ connectToLurks = async () => {
         mbot.log.info(`[L4L] Already Connected to ${channel.token}`)
       }
     }
-  } catch (err) {
-    console.log(err)
-  }
 }
 request.get('https://mixer-helper.s3.amazonaws.com/lurks.json', (err, res, body) => {
     if (!err && res.statusCode == 200) {
@@ -33,7 +29,6 @@ request.get('https://mixer-helper.s3.amazonaws.com/lurks.json', (err, res, body)
 })
 
 messageLurks = async () => {
-  try {
     if (lurkOn) {
       for (let token of mbot.lurks) {
         let channel = await mbot.getChannel(token)
@@ -51,9 +46,6 @@ messageLurks = async () => {
         if (mbot.lurks.length >= 1000) await mbot.delay(3500)
       }
     }
-  } catch (err) {
-    console.log(err)
-  }
 }
 setInterval(messageLurks, 1000 * 60 * lurkInterval)
 
