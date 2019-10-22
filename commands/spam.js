@@ -1,8 +1,8 @@
 const request = require("request")
 mbot.db.getSync('spams', [])
-const spamInterval = 3
+const spamInterval = 5
 const spamMessages = mbot.conf.adMessages
-const messageLiveTime = 1000 * 60 * mbot.conf.liveNowInterval
+const liveMessages = mbot.conf.liveMessages
 
 
 
@@ -31,36 +31,38 @@ request.get('https://mixer-helper.s3.amazonaws.com/spams.json', (err, res, body)
     connectToSpams()
 })
 
-messageLive = async () => {
+messageLiveSpams = async () => {
   try {
-    for (let token of mbot.spams) {
-    let channel = await mbot.getChannel(token)
-    let message = liveMessages[Math.floor(Math.random()*liveMessages.length)]
-    if (channel.online) {
-      if (mbot.user.channel.online) {
-        if(!mbot.user.channel.online) {return}
-      if (mbot.chats[token]) {
-        mbot.chats[token].msg(message).catch(err => console.log(err))
-      } else {
-        let chat = await mbot.getChat(channel.id)
-        chat = await mbot.join(channel, chat)
-        mbot.chats[token].msg(message).catch(err => console.log(err))
-      }
-      mbot.log.info(`[LIVE NOW SENT] Channel: ${token} - Message: ${message}`)
+    let token2 = mbot.user.channel.token
+    let channel2 = await mbot.getChannel(token2)
+    if (channel2.online) {
+        for (let token of mbot.spams) {
+          let channel = await mbot.getChannel(token)
+          let message = liveMessages[Math.floor(Math.random()*liveMessages.length)]
+          if (token != mbot.user.channel.token) {
+            if (mbot.chats[token]) {
+              mbot.chats[token].msg(message).catch(err => console.log(err))
+            } else {
+              let chat = await mbot.getChat(channel.id)
+              chat = await mbot.join(channel, chat)
+              mbot.chats[token].msg(message).catch(err => console.log(err))
+            }
+          }
+          mbot.log.info(`[LIVE MESSAGE SENT] Channel: ${token} - Message: ${message}`)
+          if (mbot.spams.length >= 1000) await mbot.delay(3500)
+        }
     }
-    } else {return}
-    if (mbot.spams.length >= 1000) await mbot.delay(3500)
+  } catch (err) {
+    console.log(err)
   }
-} catch (err) {
-  console.log(err)
 }
-}
-setInterval(messageLive, messageLiveTime)
+setInterval(messageLiveSpams, 1000 * 60 * spamInterval / 2)
 
 messageSpams = async () => {
   for (let token of mbot.spams) {
     let channel = await mbot.getChannel(token)
     let message = spamMessages[Math.floor(Math.random()*spamMessages.length)]
+    if (token != mbot.user.channel.token) {
       if (mbot.chats[token]) {
         mbot.chats[token].msg(message).catch(err => console.log(err))
       } else {
@@ -68,6 +70,7 @@ messageSpams = async () => {
         chat = await mbot.join(channel, chat)
         mbot.chats[token].msg(message).catch(err => console.log(err))
       }
+    }
       mbot.log.info(`[AD SENT] Channel: ${token} - Message: ${message}`)
     if (mbot.spams.length >= 1000) await mbot.delay(3500)
   }
