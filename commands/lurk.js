@@ -1,5 +1,5 @@
 let globalLurks = []
-let lurkOn = mbot.conf.lurkOn || true
+let lurkOn = mbot.conf.lurkOn || false
 const request = require("request")
 mbot.db.getSync('lurks', [])
 const lurkInterval = mbot.conf.lurkInterval
@@ -70,6 +70,7 @@ mbot.addMessageHandler(async (chat, data, args) => {
   let msg = data.message.message[0].text.toLowerCase()
   if ((msg.includes('l4l') || msg .includes('lurk') || msg .includes('lurking')) && data.channel == mbot.user.channel.id && data.user_id != mbot.user.id) {
     try {
+      if (lurkOn) {
         let user = await mbot.getUser(data.user_id)
         if (data.user_id === mbot.user.id && args[0]) {
           user.channel = await mbot.getChannel(args[0])
@@ -90,7 +91,7 @@ mbot.addMessageHandler(async (chat, data, args) => {
         } else {
           console.log('\x1b[31m%s\x1b[0m', `[L4L] Channel: ${user.channel.token} doesn't exist!`);
         }
-      // }
+      }
     } catch (err) {
       console.log(err)
     }
