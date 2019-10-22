@@ -13,8 +13,9 @@ connectToLurks = async () => {
         let channel = await mbot.getChannel(token)
         let chat = await mbot.getChat(channel.id)
         chat = await mbot.join(channel, chat)
+        mbot.log.info(`[L4L] Connected to ${channel.token}`)
       } else {
-        return;
+        mbot.log.info(`[L4L] Already Connected to ${channel.token}`)
       }
     }
   } catch (err) {
