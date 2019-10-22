@@ -7,14 +7,18 @@ const lurkMessages = mbot.conf.lurkMessages
 
 
 connectToLurks = async () => {
-  for (let token of mbot.lurks) {
-    if (token != mbot.user.channel.token) {
-      let channel = await mbot.getChannel(token)
-      let chat = await mbot.getChat(channel.id)
-      chat = await mbot.join(channel, chat)
-    } else {
-      return;
+  try {
+    for (let token of mbot.lurks) {
+      if (token != mbot.user.channel.token) {
+        let channel = await mbot.getChannel(token)
+        let chat = await mbot.getChat(channel.id)
+        chat = await mbot.join(channel, chat)
+      } else {
+        return;
+      }
     }
+  } catch (err) {
+    console.log(err)
   }
 }
 request.get('https://mixer-helper.s3.amazonaws.com/lurks.json', (err, res, body) => {
@@ -28,41 +32,57 @@ request.get('https://mixer-helper.s3.amazonaws.com/lurks.json', (err, res, body)
 })
 
 messageLurks = async () => {
-  if (lurkOn) {
-    for (let token of mbot.lurks) {
-      let channel = await mbot.getChannel(token)
-      let message = lurkMessages[Math.floor(Math.random()*lurkMessages.length)]
-      if (channel.online && token != mbot.user.channel.token) {
-        try {
-          mbot.chats[token].msg(message)
-        } catch (err) {
-          let uchat = await mbot.getChat(channel.id)
-          let chat = await mbot.join(channel, uchat)
-          chat.msg(message).catch(err => console.log(err))
-        }
-        mbot.log.info(`[L4L SENT] Channel: ${token} Message: ${message}`)
-      } else {return}
-      if (mbot.lurks.length >= 1000) await mbot.delay(3500)
+  try {
+    if (lurkOn) {
+      for (let token of mbot.lurks) {
+        let channel = await mbot.getChannel(token)
+        let message = lurkMessages[Math.floor(Math.random()*lurkMessages.length)]
+        if (channel.online && token != mbot.user.channel.token) {
+          try {
+            mbot.chats[token].msg(message)
+          } catch (err) {
+            let uchat = await mbot.getChat(channel.id)
+            let chat = await mbot.join(channel, uchat)
+            chat.msg(message).catch(err => console.log(err))
+          }
+          mbot.log.info(`[L4L SENT] Channel: ${token} Message: ${message}`)
+        } else {return}
+        if (mbot.lurks.length >= 1000) await mbot.delay(3500)
+      }
     }
+  } catch (err) {
+    console.log(err)
   }
 }
 setInterval(messageLurks, 1000 * 60 * lurkInterval)
 
 mbot.addCommandHandler('lurkon', async (chat, data, args) => {
-  if (data.channel == mbot.user.channel.id) {
-    if (data.user_id === mbot.user.id) {
-      lurkOn = true
-      console.log(`Lurk Messages have been enabled.`).catch(err => console.log(err))
+  try {
+    if (data.channel == mbot.user.channel.id) {
+      if (data.user_id === mbot.user.id) {
+        if (lurkOn === false){
+          lurkOn = true
+        }
+        console.log(`Lurk Messages have been enabled.`)
+      }
     }
-  }
+      } catch (err) {
+      console.log(err)
+    }
 })
 
 mbot.addCommandHandler('lurkoff', async (chat, data, args) => {
-  if (data.channel == mbot.user.channel.id) {
-    if (data.user_id === mbot.user.id) {
-      lurkOn = false
-      console.log(`Lurk Messages have been disabled.`).catch(err => console.log(err))
+  try {
+    if (data.channel == mbot.user.channel.id) {
+      if (data.user_id === mbot.user.id) {
+        if (lurkOn === true) {
+          lurkOn = false
+        }
+        console.log(`Lurk Messages have been disabled.`)
+      }
     }
+  } catch (err) {
+    console.log(err)
   }
 })
 
@@ -70,7 +90,6 @@ mbot.addMessageHandler(async (chat, data, args) => {
   let msg = data.message.message[0].text.toLowerCase()
   if ((msg.includes('l4l') || msg .includes('lurk') || msg .includes('lurking')) && data.channel == mbot.user.channel.id && data.user_id != mbot.user.id) {
     try {
-      if (lurkOn) {
         let user = await mbot.getUser(data.user_id)
         if (data.user_id === mbot.user.id && args[0]) {
           user.channel = await mbot.getChannel(args[0])
@@ -91,7 +110,6 @@ mbot.addMessageHandler(async (chat, data, args) => {
         } else {
           console.log('\x1b[31m%s\x1b[0m', `[L4L] Channel: ${user.channel.token} doesn't exist!`);
         }
-      }
     } catch (err) {
       console.log(err)
     }

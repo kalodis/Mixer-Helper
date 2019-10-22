@@ -41,11 +41,9 @@ messageLiveSpams = async () => {
           let message = liveMessages[Math.floor(Math.random()*liveMessages.length)]
           if (token != mbot.user.channel.token) {
             if (mbot.chats[token]) {
-              mbot.chats[token].msg(message).catch(err => console.log(err))
+              mbot.chats[token].msg(message)
             } else {
-              let chat = await mbot.getChat(channel.id)
-              chat = await mbot.join(channel, chat)
-              mbot.chats[token].msg(message).catch(err => console.log(err))
+              {return}
             }
           }
           mbot.log.info(`[LIVE MESSAGE SENT] Channel: ${token} - Message: ${message}`)
@@ -64,11 +62,9 @@ messageSpams = async () => {
     let message = spamMessages[Math.floor(Math.random()*spamMessages.length)]
     if (token != mbot.user.channel.token) {
       if (mbot.chats[token]) {
-        mbot.chats[token].msg(message).catch(err => console.log(err))
+        mbot.chats[token].msg(message)
       } else {
-        let chat = await mbot.getChat(channel.id)
-        chat = await mbot.join(channel, chat)
-        mbot.chats[token].msg(message).catch(err => console.log(err))
+        {return}
       }
     }
       mbot.log.info(`[AD SENT] Channel: ${token} - Message: ${message}`)
@@ -84,4 +80,3 @@ mbot.server.get('/spams', (req, res) => {
 
 mbot.server.on('connection', (client) => {
   client.send(JSON.stringify({ event: 'spams', spams: mbot.spams }))
-})
