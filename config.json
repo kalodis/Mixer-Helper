@@ -79,11 +79,6 @@
     "follow for follow?",
     "lurk for lurk?"
   ],
-  "liveMessages": [
-    "Live Now! Come check out my channel!",
-    "Hey Mixer I am live now if you want to come check out my channel!",
-    ":) LIVE NOW :)"
-  ],
   "lurkCycle": 300,
   "lurkTimeout": 120,
   "asyncLurks": 1,
