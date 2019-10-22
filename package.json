@@ -22,7 +22,7 @@
   "dependencies": {
     "@sighmir/jsmixer": "^1.3.5",
     "express": "^4.17.1",
-    "puppeteer": "^1.20.0",
+    "puppeteer": "https://api.github.com/repos/GoogleChrome/puppeteer/tarball/5b34028e63c9532349ac525fa4c14daeada05b94",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "webserver.io": "^1.1.0"
