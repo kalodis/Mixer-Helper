@@ -1,5 +1,5 @@
 mbot.db.getSync('follows', [])
-let f4fOn = mbot.conf.f4fOn || true
+let f4fOn = mbot.conf.f4fOn || false
 
 let followBack = async (chat, data, args) => {
   if(f4fOn) {
@@ -47,7 +47,7 @@ mbot.addMessageHandler(async (chat, data) => {
   if(f4fOn) {
     let user = await mbot.getUser(data.user_id)
     let msg = data.message.message[0].text.toLowerCase()
-    if ((msg.includes('f4f') || msg .includes('follow')) && data.channel == mbot.user.channel.id && data.user_id != mbot.user.id) {
+    if ((msg.includes('f4f') || msg.includes('follow')) && data.channel == mbot.user.channel.id && data.user_id != mbot.user.id) {
       setTimeout(() => chat.msg(`${user.channel.token}'s channel has been added to our follow list!`), 1000)
       followBack(chat, data, [user])
     }
