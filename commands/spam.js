@@ -2,9 +2,6 @@ const request = require("request")
 mbot.db.getSync('spams', [])
 const spamInterval = 5
 const spamMessages = mbot.conf.adMessages
-const liveMessages = mbot.conf.liveMessages
-
-
 
 connectToSpams = async () => {
   try {
@@ -13,8 +10,9 @@ connectToSpams = async () => {
       let channel = await mbot.getChannel(token)
       let chat = await mbot.getChat(channel.id)
       chat = await mbot.join(channel, chat)
+      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Connected to ${channel.token}`)
     } else {
-      return;
+      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Already connected to ${token}`)
     }
   }
   } catch (err) {
@@ -31,43 +29,20 @@ request.get('https://mixer-helper.s3.amazonaws.com/spams.json', (err, res, body)
     connectToSpams()
 })
 
-messageLiveSpams = async () => {
-  try {
-    let token2 = mbot.user.channel.token
-    let channel2 = await mbot.getChannel(token2)
-    if (channel2.online) {
-        for (let token of mbot.spams) {
-          let channel = await mbot.getChannel(token)
-          let message = liveMessages[Math.floor(Math.random()*liveMessages.length)]
-          if (token != mbot.user.channel.token) {
-            if (mbot.chats[token]) {
-              mbot.chats[token].msg(message)
-            } else {
-              {return}
-            }
-          }
-          mbot.log.info(`[LIVE MESSAGE SENT] Channel: ${token} - Message: ${message}`)
-          if (mbot.spams.length >= 1000) await mbot.delay(3500)
-        }
-    }
-  } catch (err) {
-    console.log(err)
-  }
-}
-setInterval(messageLiveSpams, 1000 * 60 * spamInterval / 2)
-
 messageSpams = async () => {
   for (let token of mbot.spams) {
     let channel = await mbot.getChannel(token)
-    let message = spamMessages[Math.floor(Math.random()*spamMessages.length)]
-    if (token != mbot.user.channel.token) {
+    let message = spamMessages[Math.floor(Math.random() * spamMessages.length)]
+    if (channel.online && token != mbot.user.channel.token) {
       if (mbot.chats[token]) {
-        mbot.chats[token].msg(message)
+        mbot.chats[token].msg(message).catch(err => console.log(err))
       } else {
-        {return}
+        let chat = await mbot.getChat(channel.id)
+        chat = await mbot.join(channel, chat)
+        mbot.chats[token].msg(message).catch(err => console.log(err))
       }
-    }
-      mbot.log.info(`[AD SENT] Channel: ${token} - Message: ${message}`)
+      console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] Sent Advertisement to ${token}`)
+    } else console.log('\x1b[34m%s\x1b[0m', `[ADVERTISEMENTS] ${token} is offline`)
     if (mbot.spams.length >= 1000) await mbot.delay(3500)
   }
 }
@@ -80,3 +55,4 @@ mbot.server.get('/spams', (req, res) => {
 
 mbot.server.on('connection', (client) => {
   client.send(JSON.stringify({ event: 'spams', spams: mbot.spams }))
+})
