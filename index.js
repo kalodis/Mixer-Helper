@@ -32,4 +32,4 @@ mbot.server.on('connection', (client, req) => {
 })
 
 mbot.server.http.listen(4000)
-mbot.log.info(`Bot API listening on localhost:4000`)
+mbot.log.info(`Port: 4000 - Mixer Helper Ver. 0.8 is running!`)
